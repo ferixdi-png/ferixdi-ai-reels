@@ -3,6 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Mobile Safari / in-app browsers sometimes restore scroll position.
+    // Force landing at the very top on every open.
+    (function () {
+      try {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      } catch (e) {}
+      try {
+        // Remove hash if any (can trigger auto-scroll).
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      } catch (e) {}
+      try {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      } catch (e) {}
+    })();
+  </script>
   <title>ferixdi.ai — AI Reels · обучение · практика</title>
   <style>
     :root{
@@ -530,17 +548,30 @@ body{ padding-bottom: 88px; }
 
   <script>
     const PAY_URL = "pay.html";
-    const reelPlans = new Set(["reel_1","reel_5","reel_20"]);// Always start at top on mobile (disable browser scroll restoration + remove hash anchors)
-try{ if("scrollRestoration" in history) history.scrollRestoration = "manual"; }catch(e){}
-window.addEventListener("pageshow", (e)=>{ try{ window.scrollTo(0,0); }catch(err){} }, {once:true});
-window.addEventListener("load", ()=>{
-  try{
-    if(location.hash){ history.replaceState(null, "", location.pathname + location.search); }
-  }catch(e){}
-  try{ window.scrollTo(0,0); }catch(e){}
-  requestAnimationFrame(()=>{ try{ window.scrollTo(0,0); }catch(e){} });
-  setTimeout(()=>{ try{ window.scrollTo(0,0); }catch(e){} }, 120);
-}, {once:true});
+    const reelPlans = new Set(["reel_1","reel_5","reel_20"]);
+
+    // Always start at top on mobile (Safari / in-app browsers may restore scroll position).
+    function forceTop() {
+      try {
+        if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      } catch (e) {}
+
+      const start = Date.now();
+      (function tick() {
+        try {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          // Avoid auto-scroll caused by focused inputs.
+          const ae = document.activeElement;
+          if (ae && typeof ae.blur === "function") ae.blur();
+        } catch (e) {}
+        if (Date.now() - start < 900) requestAnimationFrame(tick);
+      })();
+    }
+
+    window.addEventListener("pageshow", forceTop);
+    window.addEventListener("load", () => setTimeout(forceTop, 0));
 
     // клик по тарифам Reels: выбираем пакет в форме и скроллим
     document.querySelectorAll("[data-plan]").forEach((btn)=>{
