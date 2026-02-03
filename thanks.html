@@ -3,59 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Спасибо! — ferixdi.ai</title>
+  <title>Готово — ferixdi.ai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{
+      --bg:#070a0f;
+      --bg2:#0b1320;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --text:#f5f7ff;
+      --muted:rgba(245,247,255,.82);
+      --muted2:rgba(245,247,255,.62);
+      --line:rgba(255,255,255,.12);
+      --a:#30ff7a;
+      --b:#22d3ee;
+      --c:#a78bfa;
+      --shadow:0 20px 60px rgba(0,0,0,.55);
+      --r:26px;
+      --max:980px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(900px 500px at 20% 10%, rgba(48,255,122,.16), transparent 55%),
+                                     radial-gradient(700px 460px at 80% 0%, rgba(34,211,238,.14), transparent 52%),
+                                     radial-gradient(760px 560px at 70% 90%, rgba(167,139,250,.12), transparent 55%),
+                                     linear-gradient(180deg,var(--bg),var(--bg2));
+         color:var(--text);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:44px 20px}
+    .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px}
+    .h2{margin:0 0 8px;font-size:28px}
+    .sub{margin:0 0 18px;color:var(--muted)}
+    .row{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:14px 18px;border:1px solid var(--line);color:var(--text);font-weight:800}
+    .btn.primary{border:0;background:linear-gradient(90deg,var(--a),var(--b),var(--c));color:#071018}
+    .steps{display:grid;gap:10px;margin-top:16px}
+    .step{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:18px;background:rgba(0,0,0,.18)}
+    .num{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+         background:linear-gradient(90deg,var(--a),var(--b),var(--c));color:#071018;font-weight:900;flex:0 0 auto}
+    .t{font-weight:800}
+    .d{color:var(--muted2);font-size:13px;margin-top:2px;line-height:1.35}
+    .fine{color:var(--muted2);font-size:13px;line-height:1.5;margin-top:14px}
+  </style>
 </head>
 <body>
-  <div class="bg">
-    <div class="grain"></div>
-    <div class="glow g1"></div>
-    <div class="glow g2"></div>
-  </div>
-
   <main class="wrap">
-    <section class="thanks card">
-      <div class="thanks__icon">✅</div>
-      <h1 class="h2">Готово ✅</h1>
-      <p class="sub">Пришли чек в Telegram и короткое ТЗ — я подтверждаю оплату и запускаю работу/выдачу доступа.</p>
+    <section class="card">
+      <div style="font-size:34px;line-height:1;margin-bottom:10px">✅</div>
+      <h1 class="h2" id="title">Готово</h1>
+      <p class="sub" id="subtitle">Дальше чек в Telegram — после чека запускаю работу/выдаю доступ.</p>
 
-      <div class="thanks__steps">
-        <div class="mini">
-          <div class="mini__ico">1</div>
-          <div>
-            <div class="mini__t">Напишите в Telegram</div>
-            <div class="mini__d">@ferixdiii</div>
-          </div>
-        </div>
-        <div class="mini">
-          <div class="mini__ico">2</div>
-          <div>
-            <div class="mini__t">Скиньте чек + 2–3 строки ТЗ</div>
-            <div class="mini__d">цель, ниша, стиль, что точно хочется</div>
-          </div>
-        </div>
-        <div class="mini">
-          <div class="mini__ico">3</div>
-          <div>
-            <div class="mini__t">Добавьте рефы</div>
-            <div class="mini__d">лого/фото/ссылки/примеры</div>
-          </div>
-        </div>
+      <div class="steps" id="steps"></div>
+
+      <div class="row" style="margin-top:18px">
+        <a class="btn primary" href="https://t.me/ferixdiii" target="_blank" rel="noreferrer">Открыть Telegram</a>
+        <a class="btn" href="index.html">Вернуться на сайт</a>
       </div>
 
-      <div class="muted small" style="margin-top:14px;">Если брал обучение или доступ для практики — после чека сразу дам ссылку/инструкцию. Если брал ролики — подтверждаю ТЗ и пишу срок/план.</div>
-
-      <div class="hero__buttons">
-        <a class="btn btn--primary btn--big" href="https://t.me/ferixdiii" target="_blank" rel="noreferrer">Написать в TG</a>
-        <a class="btn btn--ghost btn--big" href="index.html#pricing">Вернуться на сайт</a>
-      </div>
-
-      <div class="muted small">Если вы ещё не отправляли заявку — тоже ок, просто напишите в Telegram и скажите какой тариф оплатили.</div>
+      <div class="fine">Если хочешь ускорить старт: в сообщении укажи, что выбираешь на сайте (ролики/обучение/практика/бот под ключ) и приложи чек.</div>
     </section>
   </main>
+
+  <script>
+    (()=>{
+      const url = new URL(window.location.href);
+      const plan = url.searchParams.get("plan") || "";
+      const isReels = plan.startsWith("reel_");
+
+      const steps = document.getElementById("steps");
+      const add = (n,t,d)=>{
+        const el = document.createElement("div");
+        el.className="step";
+        el.innerHTML = '<div class="num">'+n+'</div><div><div class="t">'+t+'</div><div class="d">'+d+'</div></div>';
+        steps.appendChild(el);
+      };
+
+      if(isReels){
+        document.getElementById("subtitle").textContent = "Чек в Telegram + короткое ТЗ — подтверждаю оплату и ставлю в работу.";
+        add(1,"Напиши в Telegram","@ferixdiii");
+        add(2,"Прикрепи чек","любой банк/СБП, чтобы быстро сверить");
+        add(3,"Кинь 2–3 строки ТЗ","цель, ниша, стиль, рефы/логотип/ссылка");
+      } else {
+        document.getElementById("subtitle").textContent = "Чек в Telegram — выдаю ссылку и короткий гайд по старту.";
+        add(1,"Напиши в Telegram","@ferixdiii");
+        add(2,"Прикрепи чек","после чека сразу даю доступ/ссылку");
+        add(3,"Укажи услугу","обучение или доступ для практики");
+      }
+    })();
+  </script>
 </body>
 </html>

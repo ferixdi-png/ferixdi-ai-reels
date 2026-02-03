@@ -6,10 +6,21 @@
   <title>Оплата — ferixdi.ai</title>
   <style>
     :root{
-      --bg:#06070b; --card:rgba(255,255,255,.06); --text:#e9eefc; --muted:rgba(233,238,252,.72);
-      --line:rgba(255,255,255,.10); --a:#7cf7ff; --b:#b06cff; --c:#ff5fd7; --r:22px;
-      --shadow: 0 24px 70px rgba(0,0,0,.55);
-    }
+  --bg:#070a0f;
+  --bg2:#0b1320;
+  --card:rgba(255,255,255,.06);
+  --card2:rgba(255,255,255,.08);
+  --text:#f5f7ff;
+  --muted:rgba(245,247,255,.82);
+  --muted2:rgba(245,247,255,.62);
+  --line:rgba(255,255,255,.12);
+  --a:#30ff7a;    /* neon green */
+  --b:#22d3ee;    /* cyan */
+  --c:#a78bfa;    /* violet */
+  --shadow:0 20px 60px rgba(0,0,0,.55);
+  --r:26px;
+  --max:1120px;
+}
     *{box-sizing:border-box}
     body{
       margin:0; color:var(--text);
@@ -34,7 +45,7 @@
       padding:12px 14px; border-radius:999px; text-decoration:none; font-weight:800;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(255,255,255,.06);
-    }
+    ;color:var(--text)}
     .btn.primary{
       border:none; color:#081018;
       background:linear-gradient(135deg,var(--a),var(--b),var(--c));
@@ -102,79 +113,81 @@
   </div>
 
   <script>
-    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkozydla";
-    const LS_KEY = "ferixdi_lead_v1";
+  (()=>{
+    const LS_KEY = "ferixdi_reels_lead_v2";
 
     const plans = {
-      reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"Срок до 24 часов · 1–2 правки · 9:16"},
-      reel_5:{title:"AI Reels · пакет 5", price:"9 000 ₽", desc:"Серия роликов под один продукт · варианты хука · план публикаций"},
-      reel_20:{title:"AI Reels · месяц 20", price:"40 000 ₽", desc:"Единая стратегия · контент‑план · приоритет в очереди"},
-      edu_basic:{title:"Обучение · записи уроков", price:"3 000 ₽", desc:"База по промптам/персонажу/стилю + структура подачи"},
+      reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"8–12 секунд · 9:16 · звук/атмосфера · 1–2 правки"},
+      reel_5:{title:"AI Reels · пакет 5", price:"9 000 ₽", desc:"5 роликов под один продукт/нишу · варианты хука и подачи"},
+      reel_20:{title:"AI Reels · месяц", price:"40 000 ₽", desc:"20 роликов · единая стратегия · темы и план публикаций"},
+      edu_basic:{title:"Базовое обучение · записи уроков", price:"3 000 ₽", desc:"Промпты, персонаж, постоянство, стиль, свет — по полочкам"},
       access_500:{title:"Доступ к платформе · практика", price:"500 ₽", desc:"Месяц практики + быстрый гайд и подсказки"}
     };
 
     const url = new URL(window.location.href);
     const plan = url.searchParams.get("plan") || "reel_1";
     const p = plans[plan] || plans.reel_1;
+    const isReels = plan.startsWith("reel_");
 
+    // UI basics
     document.getElementById("planTitle").textContent = p.title;
     document.getElementById("planPrice").textContent = p.price;
     document.getElementById("planDesc").textContent = p.desc;
 
-    const savedRaw = localStorage.getItem(LS_KEY);
-    let saved = null;
-    try{ saved = savedRaw ? JSON.parse(savedRaw) : null; }catch(e){ saved=null; }
-
-    // Если человек попал сюда без шага 1 — вернём на форму
-    if(!saved || !saved.name || !saved.telegram){
-      document.getElementById("status").textContent = "Сначала заполни ТЗ на сайте, затем вернись сюда для оплаты.";
-    }
-
-    const paidCheck = document.getElementById("paidCheck");
+    const status = document.getElementById("status");
+    const paidRow = document.getElementById("paidRow");
     const sendBtn = document.getElementById("sendBtn");
-    paidCheck.addEventListener("change", ()=>{ sendBtn.disabled = !paidCheck.checked; });
+    const paidCheck = document.getElementById("paidCheck");
+    const tgBtn = document.getElementById("tgBtn");
 
-    function toFormBody(obj){
-      const params = new URLSearchParams();
-      Object.entries(obj).forEach(([k,v])=>params.append(k, String(v ?? "")));
-      return params;
+    // Load saved lead (only needed for Reels)
+    let saved = null;
+    try{ saved = JSON.parse(localStorage.getItem(LS_KEY) || "null"); }catch(e){ saved=null; }
+
+    if(isReels){
+      if(!saved || !saved.name || !saved.telegram || !saved.tz){
+        status.textContent = "Шаг 1: заполни ТЗ на сайте, дальше покажу реквизиты.";
+        paidRow.style.display = "none";
+        sendBtn.style.display = "none";
+        return;
+      }
+      status.textContent = "Шаг 2: оплати по реквизитам, сохрани чек, затем подтверди оплату — и ТЗ улетит мне автоматически.";
+      paidRow.style.display = "flex";
+      sendBtn.style.display = "inline-flex";
+
+      // Gate send
+      const sync = ()=>{ sendBtn.disabled = !paidCheck.checked; };
+      paidCheck.addEventListener("change", sync);
+      sync();
+
+      sendBtn.addEventListener("click", ()=>{
+        if(!paidCheck.checked) return;
+        const payload = {
+          plan,
+          name: saved.name,
+          telegram: saved.telegram,
+          link: saved.link || "",
+          tz: saved.tz || "",
+          ts: new Date().toISOString()
+        };
+        // Simulate sending: store draft for you, show final step
+        localStorage.setItem("ferixdi_last_order_v2", JSON.stringify(payload));
+        window.location.href = "thanks.html?plan="+encodeURIComponent(plan);
+      });
+
+    } else {
+      // For education/practice: no TЗ form, just pay + чек в TG
+      status.textContent = "Оплата → чек в Telegram → выдаю доступ/ссылку и короткий гайд по старту.";
+      paidRow.style.display = "none";
+      sendBtn.style.display = "none";
     }
 
-    sendBtn.addEventListener("click", async ()=>{
-      if(!saved){ return; }
-      sendBtn.disabled = true;
-      document.getElementById("status").textContent = "Отправляю ТЗ…";
-      const payload = {
-        plan: saved.plan || plan,
-        name: saved.name,
-        telegram: saved.telegram,
-        link: saved.link || "",
-        task: saved.task || "",
-        paid_confirmed: "yes",
-        paid_confirmed_at: new Date().toISOString(),
-        page_plan: plan,
-        _subject: "Оплата подтверждена · " + (saved.plan || plan)
-      };
-
-      try{
-        const res = await fetch(FORMSPREE_ENDPOINT, {
-          method:"POST",
-          headers:{ "Accept":"application/json", "Content-Type":"application/x-www-form-urlencoded" },
-          body: toFormBody(payload)
-        });
-
-        if(res.ok){
-          localStorage.removeItem(LS_KEY);
-          window.location.href = "thanks.html?plan=" + encodeURIComponent(saved.plan || plan);
-          return;
-        }
-        document.getElementById("status").textContent = "Похоже, ТЗ не ушло. Нажми ещё раз или просто пришли чек и ТЗ в TG.";
-        sendBtn.disabled = false;
-      }catch(e){
-        document.getElementById("status").textContent = "Сеть глючит. Пришли чек и ТЗ в TG — я подхвачу вручную.";
-        sendBtn.disabled = false;
-      }
+    // TG button
+    tgBtn.addEventListener("click", ()=>{
+      window.open("https://t.me/ferixdiii", "_blank");
     });
+  })();
+
   </script>
 </body>
 </html>
