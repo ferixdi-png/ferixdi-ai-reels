@@ -128,25 +128,6 @@ input:focus, textarea:focus{
   z-index: 9999;
 }
 .toast.show{ opacity: 1; transform: translateX(-50%) translateY(-4px); }
-.mobilebar{
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.75) 30%, rgba(0,0,0,.9) 100%);
-  backdrop-filter: blur(10px);
-  z-index: 9998;
-  display: none;
-}
-.mobilebar .wrap{
-  max-width: 980px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 10px;
-}
-@media (max-width: 820px){
-  .mobilebar{ display:block; }
-  body{ padding-bottom: 88px; }
 }
 @media (prefers-reduced-motion: reduce){
   .btn, .card, .toast{ transition: none !important; }
@@ -242,6 +223,8 @@ input:focus, textarea:focus{
   </div>
 
   <script>
+  window.addEventListener('load', ()=>{ try{ window.scrollTo(0,0);}catch(e){} }, {once:true});
+
   (()=>{
     const plans = {
       reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"8–12 секунд · 9:16 · звук/атмосфера · 1–2 правки"},

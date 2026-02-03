@@ -202,25 +202,8 @@ input:focus, textarea:focus{
   z-index: 9999;
 }
 .toast.show{ opacity: 1; transform: translateX(-50%) translateY(-4px); }
-.mobilebar{
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.75) 30%, rgba(0,0,0,.9) 100%);
-  backdrop-filter: blur(10px);
-  z-index: 9998;
-  display: none;
-}
-.mobilebar .wrap{
-  max-width: 980px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 10px;
-}
 @media (max-width: 820px){
-  .mobilebar{ display:block; }
-  body{ padding-bottom: 88px; }
+body{ padding-bottom: 88px; }
 }
 @media (prefers-reduced-motion: reduce){
   .btn, .card, .toast{ transition: none !important; }
@@ -549,6 +532,12 @@ input:focus, textarea:focus{
     const PAY_URL = "pay.html";
     const reelPlans = new Set(["reel_1","reel_5","reel_20"]);
 
+    // Mobile: prevent auto-jump (always start at top)
+    window.addEventListener("load", ()=>{
+      try{ window.scrollTo(0,0); }catch(e){}
+      setTimeout(()=>{ try{ window.scrollTo(0,0); }catch(e){} }, 80);
+    }, {once:true});
+
     // клик по тарифам Reels: выбираем пакет в форме и скроллим
     document.querySelectorAll("[data-plan]").forEach((btn)=>{
       const plan = btn.getAttribute("data-plan");
@@ -610,13 +599,6 @@ input:focus, textarea:focus{
     clearTimeout(showToast._t);
     showToast._t = setTimeout(()=>toast.classList.remove("show"), 1400);
   }
-
-  // UX: smooth hash focus
-  window.addEventListener("hashchange", ()=>{
-    const id = location.hash.replace("#","");
-    const el = id && document.getElementById(id);
-    if(el){
-      el.scrollIntoView({behavior:"smooth", block:"start"});
       setTimeout(()=>{ el.setAttribute("tabindex","-1"); el.focus({preventScroll:true}); }, 350);
     }
   });
@@ -626,7 +608,7 @@ input:focus, textarea:focus{
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const targets = [
-      ...document.querySelectorAll('.topbar, .hero h1, .hero p, .chips, .grid .card, .cta, .two-col .card, footer, .mobilebar')
+      ...document.querySelectorAll('.topbar, .hero h1, .hero p, .chips, .grid .card, .cta, .two-col .card, footer')
     ];
     targets.forEach((el, i)=>{
       el.classList.add('reveal');
@@ -649,13 +631,6 @@ input:focus, textarea:focus{
     });
   })();
 </script>
-
-  <div class="mobilebar">
-    <div class="wrap">
-      <a class="btn" href="#rates">Выбрать услугу</a>
-      <a class="btn primary" href="#instant">Сгенерировать прямо сейчас</a>
-    </div>
-  </div>
   <div class="toast" id="toast">Готово ✓</div>
 
 </body>
