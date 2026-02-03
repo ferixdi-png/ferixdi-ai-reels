@@ -80,12 +80,12 @@
             <a class="btn" href="https://t.me/ferixdiii" target="_blank" rel="noopener">Отправить чек в TG</a>
           </div>
           <div class="line"></div>
-          <label class="check">
-            <input type="checkbox" id="paidCheck" />
-            <span>Оплата выполнена — отправить ТЗ</span>
-          </label>
-          <button class="btn primary" id="sendBtn" style="width:100%; margin-top:10px;" disabled>Я оплатил(а) → отправить ТЗ</button>
-          <div class="fine" id="status" style="margin-top:10px;">ТЗ отправится мне только после подтверждения оплаты. Чек пришли в TG — так я сразу стартую.</div>
+          <div style="font-weight:950; margin-bottom:8px;">Сообщение для Telegram</div>
+          <div class="fine">Скопируй текст, добавь чек и отправь в TG — так я быстро найду оплату и начну работу/выдам доступ.</div>
+          <div class="line"></div>
+          <textarea id="tgMsg" class="kbd" style="width:100%; min-height:140px; resize:vertical; padding:10px; border-radius:14px; background:rgba(255,255,255,.04); color:var(--text);"></textarea>
+          <button class="btn primary" id="copyBtn" style="width:100%; margin-top:10px;">Скопировать сообщение</button>
+          <div class="fine" id="status" style="margin-top:10px;">Дальше: прикрепляешь чек и отправляешь в Telegram.</div>
         </div>
 
         <div class="card" style="padding:14px;">
@@ -114,80 +114,59 @@
 
   <script>
   (()=>{
-    const LS_KEY = "ferixdi_reels_lead_v2";
-
     const plans = {
       reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"8–12 секунд · 9:16 · звук/атмосфера · 1–2 правки"},
       reel_5:{title:"AI Reels · пакет 5", price:"9 000 ₽", desc:"5 роликов под один продукт/нишу · варианты хука и подачи"},
       reel_20:{title:"AI Reels · месяц", price:"40 000 ₽", desc:"20 роликов · единая стратегия · темы и план публикаций"},
-      edu_basic:{title:"Базовое обучение · записи уроков", price:"3 000 ₽", desc:"Промпты, персонаж, постоянство, стиль, свет — по полочкам"},
-      access_500:{title:"Доступ к платформе · практика", price:"500 ₽", desc:"Месяц практики + быстрый гайд и подсказки"}
+      edu_basic:{title:"Обучение · базовое", price:"3 000 ₽", desc:"Записи + чек‑лист: персонаж, стиль, свет, постоянство"},
+      access_500:{title:"Практика · доступ на месяц", price:"500 ₽", desc:"Доступ + быстрый гайд по старту и экономии кредитов"}
     };
 
     const url = new URL(window.location.href);
     const plan = url.searchParams.get("plan") || "reel_1";
     const p = plans[plan] || plans.reel_1;
-    const isReels = plan.startsWith("reel_");
 
-    // UI basics
+    const name = url.searchParams.get("name") || "";
+    const telegram = url.searchParams.get("telegram") || "";
+    const link = url.searchParams.get("link") || "";
+    const task = url.searchParams.get("task") || "";
+
+    // UI
     document.getElementById("planTitle").textContent = p.title;
     document.getElementById("planPrice").textContent = p.price;
     document.getElementById("planDesc").textContent = p.desc;
 
+    const isReels = plan.startsWith("reel_");
+    const msg = [
+      "Оплата по ferixdi.ai ✅",
+      `Услуга: ${p.title}`,
+      (name ? `Имя: ${name}` : ""),
+      (telegram ? `Telegram: ${telegram}` : ""),
+      (link ? `Ссылка: ${link}` : ""),
+      (isReels && task ? `ТЗ: ${task}` : ""),
+      "",
+      "Чек прикрепил(а) ниже."
+    ].filter(Boolean).join("\n");
+
+    const tgMsg = document.getElementById("tgMsg");
+    tgMsg.value = msg;
+
     const status = document.getElementById("status");
-    const paidRow = document.getElementById("paidRow");
-    const sendBtn = document.getElementById("sendBtn");
-    const paidCheck = document.getElementById("paidCheck");
-    const tgBtn = document.getElementById("tgBtn");
+    status.textContent = isReels
+      ? "Дальше: прикрепляешь чек, отправляешь сообщение в Telegram — и я начинаю работу."
+      : "Дальше: прикрепляешь чек, отправляешь сообщение в Telegram — и я выдаю доступ/ссылку.";
 
-    // Load saved lead (only needed for Reels)
-    let saved = null;
-    try{ saved = JSON.parse(localStorage.getItem(LS_KEY) || "null"); }catch(e){ saved=null; }
-
-    if(isReels){
-      if(!saved || !saved.name || !saved.telegram || !saved.tz){
-        status.textContent = "Шаг 1: заполни ТЗ на сайте, дальше покажу реквизиты.";
-        paidRow.style.display = "none";
-        sendBtn.style.display = "none";
-        return;
+    document.getElementById("copyBtn").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(tgMsg.value);
+        status.textContent = "Скопировано ✅ Осталось прикрепить чек и отправить в Telegram.";
+      }catch(e){
+        tgMsg.focus();
+        tgMsg.select();
+        status.textContent = "Текст выделен. Скопируй вручную (Ctrl+C), затем отправь в Telegram.";
       }
-      status.textContent = "Шаг 2: оплати по реквизитам, сохрани чек, затем подтверди оплату — и ТЗ улетит мне автоматически.";
-      paidRow.style.display = "flex";
-      sendBtn.style.display = "inline-flex";
-
-      // Gate send
-      const sync = ()=>{ sendBtn.disabled = !paidCheck.checked; };
-      paidCheck.addEventListener("change", sync);
-      sync();
-
-      sendBtn.addEventListener("click", ()=>{
-        if(!paidCheck.checked) return;
-        const payload = {
-          plan,
-          name: saved.name,
-          telegram: saved.telegram,
-          link: saved.link || "",
-          tz: saved.tz || "",
-          ts: new Date().toISOString()
-        };
-        // Simulate sending: store draft for you, show final step
-        localStorage.setItem("ferixdi_last_order_v2", JSON.stringify(payload));
-        window.location.href = "thanks.html?plan="+encodeURIComponent(plan);
-      });
-
-    } else {
-      // For education/practice: no TЗ form, just pay + чек в TG
-      status.textContent = "Оплата → чек в Telegram → выдаю доступ/ссылку и короткий гайд по старту.";
-      paidRow.style.display = "none";
-      sendBtn.style.display = "none";
-    }
-
-    // TG button
-    tgBtn.addEventListener("click", ()=>{
-      window.open("https://t.me/ferixdiii", "_blank");
     });
   })();
-
   </script>
 </body>
 </html>

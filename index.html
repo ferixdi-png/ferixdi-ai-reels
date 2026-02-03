@@ -197,7 +197,7 @@
             <li>Срок: до 24 часов</li>
           </ul>
           <div class="actions">
-            <a class="btn primary" href="#form" data-plan="reel_1">Оставить ТЗ → оплата</a>
+            <a class="btn primary" href="#order" data-plan="reel_1">Написать ТЗ →</a>
           </div>
         </div>
 
@@ -212,7 +212,7 @@
             <li>План публикаций на неделю</li>
           </ul>
           <div class="actions">
-            <a class="btn primary" href="#form" data-plan="reel_5">Оставить ТЗ → оплата</a>
+            <a class="btn primary" href="#order" data-plan="reel_5">Написать ТЗ →</a>
           </div>
         </div>
 
@@ -226,7 +226,7 @@
             <li>Приоритет в очереди</li>
           </ul>
           <div class="actions">
-            <a class="btn primary" href="#form" data-plan="reel_20">Оставить ТЗ → оплата</a>
+            <a class="btn primary" href="#order" data-plan="reel_20">Написать ТЗ →</a>
           </div>
         </div>
       </div>
@@ -252,7 +252,7 @@
             <li>Практика на платформе: https://labs.google/</li>
           </ul>
           <div class="actions">
-            <a class="btn primary" href="#form" data-plan="edu_basic">Оставить заявку → оплата</a>
+            <a class="btn primary" href="pay.html?plan=edu_basic" data-plan="edu_basic">Получить реквизиты →</a>
           </div>
           <div class="fine">После оплаты пришли чек в TG — выдам ссылку на доступ.</div>
         </div>
@@ -275,7 +275,7 @@
         <li>Инструкция “первые генерации” + базовые настройки</li>
         <li>Советы, как экономить кредиты и держать стиль</li>
       </ul>
-      <a class="btn primary" data-plan="access_500" href="#form">Оставить ТЗ → реквизиты</a>
+      <a class="btn primary" data-plan="access_500" href="pay.html?plan=access_500">Получить реквизиты →</a>
       <div class="fine">После оплаты пришлёшь чек — выдаю доступ и гайд.</div>
     </div>
 
@@ -298,149 +298,108 @@
         </div>
       </details>
       <details class="details">
-        <summary>Что нужно от тебя</summary>
-        <div class="fine">
-          Напиши в ТЗ: цель, формат контента, ниша, примеры роликов, что точно хочется и что точно запрещено.
-        </div>
+        <summary>Как получить доступ</summary>
+        <div class="fine">Оплати по реквизитам, пришли чек в TG — я выдаю ссылку на доступ + краткий гайд по старту.</div>
       </details>
     </div>
   </div>
 </section>
 
-
-    <section id="how" class="section">
-      <h2>Как это работает</h2>
-      <div class="steps">
-        <div class="card step"><div class="n">1) Выбираешь услугу</div><p>Нажимаешь “Оставить ТЗ → оплата” на нужной карточке.</p></div>
-        <div class="card step"><div class="n">2) Пишешь ТЗ</div><p>Коротко: кто ты, что продаёшь, что хочешь увидеть в видео.</p></div>
-        <div class="card step"><div class="n">3) Оплачиваешь СБП</div><p>Сайт покажет реквизиты. Переводишь сумму и сохраняешь чек.</p></div>
-        <div class="card step"><div class="n">4) Чек в Telegram</div><p>Кидаешь чек + материалы в @ferixdiii, дальше я стартую.</p></div>
+    <section id="order" class="section">
+      <div class="sectionHead">
+        <h2>Заказ AI‑ролика под бренд</h2>
+        <p class="sub">ТЗ пишется один раз. После оплаты отправляешь чек + ТЗ в Telegram — и я запускаю работу.</p>
       </div>
-    </section>
 
-    <section id="form" class="section">
-      <h2>Единая заявка (ТЗ) — под выбранную услугу</h2>
       <div class="formWrap">
         <div class="card">
-          <form id="leadForm">
-            <input type="hidden" name="plan" id="planInput" value="reel_1" />
-            <input type="hidden" name="_subject" id="subjectInput" value="Заявка: reel_1" />
-            <input type="hidden" name="_redirect" id="redirectInput" value="https://ferixdi-png.github.io/ferixdi-ai-reels/pay.html?plan=reel_1" />
-
+          <form id="reelsForm">
             <div>
-              <label for="name">Имя</label>
-              <input id="name" name="name" placeholder="Как к вам обращаться" autocomplete="name" required />
+              <label for="r_name">Имя</label>
+              <input id="r_name" name="name" placeholder="Как к тебе обращаться" autocomplete="name" required />
             </div>
             <div>
-              <label for="tg">Telegram</label>
-              <input id="tg" name="telegram" placeholder="@username" required />
+              <label for="r_tg">Telegram</label>
+              <input id="r_tg" name="telegram" placeholder="@username" required />
             </div>
             <div>
-              <label for="link">Ссылка на продукт/аккаунт (если есть)</label>
-              <input id="link" name="link" placeholder="https://..." inputmode="url" />
+              <label for="r_link">Ссылка на продукт/аккаунт</label>
+              <input id="r_link" name="link" placeholder="https://..." inputmode="url" />
             </div>
             <div>
-              <label for="task">ТЗ (коротко и по делу)</label>
-              <textarea id="task" name="task" placeholder="Что за бренд/товар, какая цель, что показать в кадре, референсы, тональность, запреты…"></textarea>
+              <label for="r_task">ТЗ (коротко и по делу)</label>
+              <textarea id="r_task" name="task" placeholder="Что продаёшь, цель ролика, что показать, стиль/референсы, что исключить…"></textarea>
             </div>
 
-            <button type="submit" class="btn primary" style="width:100%; padding:14px 16px;">Перейти к оплате</button>
-            <div class="hint">Сначала заполним ТЗ, затем покажу реквизиты. ТЗ уйдёт мне только после подтверждения оплаты.</div>
+            <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
+              <div style="flex:1; min-width:220px;">
+                <label for="r_plan">Пакет</label>
+                <select id="r_plan" name="plan" class="select">
+                  <option value="reel_1">1 ролик</option>
+                  <option value="reel_5">пакет 5</option>
+                  <option value="reel_20">месяц 20</option>
+                </select>
+              </div>
+              <div style="flex:1; min-width:220px;">
+                <button type="submit" class="btn primary" style="width:100%; padding:14px 16px;">Перейти к реквизитам →</button>
+              </div>
+            </div>
+
+            <div class="hint">Откроется страница оплаты: реквизиты + готовое сообщение для Telegram.</div>
           </form>
         </div>
 
-        <div class="card sideLinks" id="links">
-          <div class="linkCard">
-            <div style="font-weight:900; margin-bottom:6px;">Ссылка на мой Telegram‑канал</div>
-            <div class="fine">Там всё про бота под ключ, апдейты и схемы.</div>
-            <a href="https://t.me/ferixdi_ai?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn9BRFkpkFftjYqHp93r2rNm_FTzgArkinbbkE9aXH0H1rxoaLnNeqWe1k29Y_aem_OOPb3Irlc8MyWo4WprL2cw" target="_blank" rel="noopener">Открыть канал →</a>
+        <div class="card sideLinks">
+          <div class="linkCard hot">
+            <div style="font-weight:1000; margin-bottom:6px; letter-spacing:.3px;">Сгенерировать прямо сейчас · SYNTX</div>
+            <div class="fine">Хочешь сразу “пощупать”? Открывай бота и делай ролик за пару минут.</div>
+            <a class="cta" href="https://t.me/syntxaibot?start=aff_6913446846" target="_blank" rel="noopener">Открыть SYNTX →</a>
           </div>
           <div class="linkCard">
-            <div style="font-weight:900; margin-bottom:6px;">Контакт для быстрых вопросов</div>
-            <div class="fine">Если хочешь обсудить заранее — пиши в TG.</div>
-            <a href="https://t.me/ferixdi_ai" target="_blank" rel="noopener">Написать @ferixdi_ai →</a>
+            <div style="font-weight:900; margin-bottom:6px;">Мой Telegram‑канал</div>
+            <div class="fine">Апдейты, схемы, кейсы, как я делаю контент и лиды.</div>
+            <a href="https://t.me/ferixdi_ai?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener">Открыть канал →</a>
           </div>
           <div class="linkCard">
             <div style="font-weight:900; margin-bottom:6px;">Разбор “бот под ключ”</div>
-            <div class="fine">Подробный мини‑курс лежит в Telegra.ph.</div>
-            <a href="https://telegra.ph/Besplatnyj-mini-kurs-Svoj-Telegram-bot-s-50-nejrosetyami-fotovideo-v-rublyah-bez-VPN-i-dollarov-01-16?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnwYmVtH4Es7cxeoxnptQWRQx45IN-6jUDjtN1BB2yrxQFZ3OUV1qdVXumwZ8_aem_u61jYloSq6mTJrGUKXMSsA" target="_blank" rel="noopener">Открыть разбор →</a>
-          </div>
-          <div class="linkCard">
-            <div style="font-weight:900; margin-bottom:6px;">Сгенерировать прямо сейчас</div>
-            <div class="fine">Быстрый старт: зайти в бот и сделать ролик за пару минут.</div>
-            <a href="https://l.instagram.com/?u=https%3A%2F%2Ft.me%2Fsyntxaibot%3Fstart%3Daff_6913446846%26utm_source%3Dig%26utm_medium%3Dsocial%26utm_content%3Dlink_in_bio%26fbclid%3DPAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnFUeYfjZZtlsuYsmlljF6lwOW4QiUeImqKrXBQG5DscI05NChy1859iL6eqw_aem_e8G6OqcWR7KZPLGZoujZMw&e=AT02T3TVPxLIWiyWjjcZsUn3B0t8yVIN7xUhO4aiBT0_pqkZLHLKoCwRB1iQkro7BkP-fZRTJ1fUq8CuHurrQkMljbA76PQtHuknijLkpA" target="_blank" rel="noopener">Открыть →</a>
+            <div class="fine">Мини‑курс: как собрать своего бота и упаковать монетизацию.</div>
+            <a href="https://telegra.ph/Besplatnyj-mini-kurs-Svoj-Telegram-bot-s-50-nejrosetyami-fotovideo-v-rublyah-bez-VPN-i-dollarov-01-16?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener">Открыть разбор →</a>
           </div>
         </div>
       </div>
-
-      <div class="footer">
-        <div style="font-weight:900; margin-bottom:6px;">Оплата по СБП (ЮMoney)</div>
-        <div class="muted">Номер: <span class="kbd">89962176524</span> · банк: ЮMoney · получатель: Дмитрий</div>
-        <div class="fine">После оплаты чек → в Telegram <span class="kbd">@ferixdiii</span>. Это ускоряет старт и фиксирует очередь.</div>
-      </div>
     </section>
 
-  <footer class="wrap" style="padding:28px 20px 36px;color:var(--muted2);font-size:13px">© ferixdi.ai · ТЗ → оплата → чек → старт</footer>
-
-
-    <div class="fine" style="margin-top:14px;">
-      © ferixdi.ai · ручная работа + автоматизация · без лишних созвонов: ТЗ → оплата → чек → результат.
-    </div>
+  <footer class="wrap" style="padding:28px 20px 36px;color:var(--muted2);font-size:13px">© ferixdi.ai</footer>
   </div>
 
   <script>
-    const TG_MAIN = "https://t.me/ferixdiii";
-    const PAY_URL = "https://ferixdi-png.github.io/ferixdi-ai-reels/pay.html";
-    const plans = {
-      reel_1:   {title:"AI Reels · 1 ролик", price:2000},
-      reel_5:   {title:"AI Reels · пакет 5", price:9000},
-      reel_20:  {title:"AI Reels · месяц 20", price:40000},
-      edu_basic:{title:"Обучение · записи уроков", price:3000},
-      access_500:{title:"Доступ к платформе (складчина)", price:500}
-    };
+    const PAY_URL = "pay.html";
+    const reelPlans = new Set(["reel_1","reel_5","reel_20"]);
 
-    function setPlan(plan){
-      const p = plans[plan] ? plan : "reel_1";
-      document.getElementById("planInput").value = p;
-      document.getElementById("subjectInput").value = "Заявка: " + p;
-      document.getElementById("redirectInput").value = PAY_URL + "?plan=" + encodeURIComponent(p);
-      // лёгкий UX: подсветить выбранные
-      document.querySelectorAll("[data-plan]").forEach(a=>{
-        a.style.outline = (a.getAttribute("data-plan")===p) ? "2px solid rgba(124,247,255,.55)" : "none";
-      });
-    }
-
-    // клик по кнопкам тарифов/услуг
-    document.querySelectorAll("[data-plan]").forEach(btn=>{
-      btn.addEventListener("click", (e)=>{
-        const plan = btn.getAttribute("data-plan");
-        setPlan(plan);
+    // клик по тарифам Reels: выбираем пакет в форме и скроллим
+    document.querySelectorAll("[data-plan]").forEach((btn)=>{
+      const plan = btn.getAttribute("data-plan");
+      if(!reelPlans.has(plan)) return;
+      btn.addEventListener("click", ()=>{
+        const sel = document.getElementById("r_plan");
+        if(sel) sel.value = plan;
+        document.getElementById("order")?.scrollIntoView({behavior:"smooth", block:"start"});
       });
     });
 
-    // поддержка ?plan=... в URL
-    const url = new URL(window.location.href);
-    const qPlan = url.searchParams.get("plan");
-    if(qPlan) setPlan(qPlan);
-  
-
-    // STEP 1: ТЗ -> реквизиты (без отправки)
-    const LS_KEY = "ferixdi_lead_v1";
-    const form = document.getElementById("leadForm");
-    form.addEventListener("submit",(e)=>{
+    // submit: переносим ТЗ на страницу оплаты (без бекенда)
+    document.getElementById("reelsForm")?.addEventListener("submit", (e)=>{
       e.preventDefault();
-      const data = {
-        plan: document.getElementById("planInput").value,
-        name: document.getElementById("name").value.trim(),
-        telegram: document.getElementById("tg").value.trim(),
-        link: document.getElementById("link").value.trim(),
-        task: document.getElementById("task").value.trim(),
-        ts: new Date().toISOString()
-      };
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-      window.location.href = PAY_URL + "?plan=" + encodeURIComponent(data.plan);
+      const plan = document.getElementById("r_plan").value;
+      const params = new URLSearchParams({
+        plan,
+        name: (document.getElementById("r_name").value||"").trim(),
+        telegram: (document.getElementById("r_tg").value||"").trim(),
+        link: (document.getElementById("r_link").value||"").trim(),
+        task: (document.getElementById("r_task").value||"").trim(),
+      });
+      window.location.href = `${PAY_URL}?${params.toString()}`;
     });
-
   </script>
 </body>
 </html>
