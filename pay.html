@@ -46,7 +46,10 @@
     .fine{font-size:12px; color:rgba(233,238,252,.62); line-height:1.55}
     .big{font-size:34px; font-weight:950; letter-spacing:-.4px}
     .line{height:1px; background:var(--line); margin:14px 0}
-  </style>
+  
+    .check{display:flex; gap:10px; align-items:center; user-select:none; margin-top:6px; color:var(--muted); font-weight:650;}
+    .check input{width:18px; height:18px;}
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -63,8 +66,15 @@
           <div class="line"></div>
           <div class="row">
             <a class="btn" href="https://ferixdi-png.github.io/ferixdi-ai-reels/" rel="noopener">← Вернуться на сайт</a>
-            <a class="btn primary" href="https://t.me/ferixdiii" target="_blank" rel="noopener">Отправить чек в TG</a>
+            <a class="btn" href="https://t.me/ferixdiii" target="_blank" rel="noopener">Отправить чек в TG</a>
           </div>
+          <div class="line"></div>
+          <label class="check">
+            <input type="checkbox" id="paidCheck" />
+            <span>Оплата выполнена — отправить ТЗ</span>
+          </label>
+          <button class="btn primary" id="sendBtn" style="width:100%; margin-top:10px;" disabled>Я оплатил(а) → отправить ТЗ</button>
+          <div class="fine" id="status" style="margin-top:10px;">ТЗ отправится мне только после подтверждения оплаты. Чек пришли в TG — так я сразу стартую.</div>
         </div>
 
         <div class="card" style="padding:14px;">
@@ -92,20 +102,79 @@
   </div>
 
   <script>
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkozydla";
+    const LS_KEY = "ferixdi_lead_v1";
+
     const plans = {
       reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"Срок до 24 часов · 1–2 правки · 9:16"},
       reel_5:{title:"AI Reels · пакет 5", price:"9 000 ₽", desc:"Серия роликов под один продукт · варианты хука · план публикаций"},
       reel_20:{title:"AI Reels · месяц 20", price:"40 000 ₽", desc:"Единая стратегия · контент‑план · приоритет в очереди"},
-      edu_basic:{title:"Обучение · записи уроков", price:"3 000 ₽", desc:"Доступ к урокам + структура промптов/персонажей/стиля"},
-      access_500:{title:"Доступ к платформе (складчина)", price:"500 ₽", desc:"Недорогой вход + быстрый старт и подсказки"},
-      flow_45k:{title:"Flow · 45 000 кредитов (1 месяц)", price:"15 000 ₽", desc:"Аккаунт с подтверждённым номером + ключ + гайд"}
+      edu_basic:{title:"Обучение · записи уроков", price:"3 000 ₽", desc:"База по промптам/персонажу/стилю + структура подачи"},
+      access_500:{title:"Доступ к платформе · практика", price:"500 ₽", desc:"Месяц практики + быстрый гайд и подсказки"}
     };
+
     const url = new URL(window.location.href);
     const plan = url.searchParams.get("plan") || "reel_1";
     const p = plans[plan] || plans.reel_1;
+
     document.getElementById("planTitle").textContent = p.title;
     document.getElementById("planPrice").textContent = p.price;
     document.getElementById("planDesc").textContent = p.desc;
+
+    const savedRaw = localStorage.getItem(LS_KEY);
+    let saved = null;
+    try{ saved = savedRaw ? JSON.parse(savedRaw) : null; }catch(e){ saved=null; }
+
+    // Если человек попал сюда без шага 1 — вернём на форму
+    if(!saved || !saved.name || !saved.telegram){
+      document.getElementById("status").textContent = "Сначала заполни ТЗ на сайте, затем вернись сюда для оплаты.";
+    }
+
+    const paidCheck = document.getElementById("paidCheck");
+    const sendBtn = document.getElementById("sendBtn");
+    paidCheck.addEventListener("change", ()=>{ sendBtn.disabled = !paidCheck.checked; });
+
+    function toFormBody(obj){
+      const params = new URLSearchParams();
+      Object.entries(obj).forEach(([k,v])=>params.append(k, String(v ?? "")));
+      return params;
+    }
+
+    sendBtn.addEventListener("click", async ()=>{
+      if(!saved){ return; }
+      sendBtn.disabled = true;
+      document.getElementById("status").textContent = "Отправляю ТЗ…";
+      const payload = {
+        plan: saved.plan || plan,
+        name: saved.name,
+        telegram: saved.telegram,
+        link: saved.link || "",
+        task: saved.task || "",
+        paid_confirmed: "yes",
+        paid_confirmed_at: new Date().toISOString(),
+        page_plan: plan,
+        _subject: "Оплата подтверждена · " + (saved.plan || plan)
+      };
+
+      try{
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method:"POST",
+          headers:{ "Accept":"application/json", "Content-Type":"application/x-www-form-urlencoded" },
+          body: toFormBody(payload)
+        });
+
+        if(res.ok){
+          localStorage.removeItem(LS_KEY);
+          window.location.href = "thanks.html?plan=" + encodeURIComponent(saved.plan || plan);
+          return;
+        }
+        document.getElementById("status").textContent = "Похоже, ТЗ не ушло. Нажми ещё раз или просто пришли чек и ТЗ в TG.";
+        sendBtn.disabled = false;
+      }catch(e){
+        document.getElementById("status").textContent = "Сеть глючит. Пришли чек и ТЗ в TG — я подхвачу вручную.";
+        sendBtn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
