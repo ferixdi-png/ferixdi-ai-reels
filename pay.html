@@ -2,116 +2,110 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex" />
-  <title>Оплата — AI Reels</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Оплата — ferixdi.ai</title>
+  <style>
+    :root{
+      --bg:#06070b; --card:rgba(255,255,255,.06); --text:#e9eefc; --muted:rgba(233,238,252,.72);
+      --line:rgba(255,255,255,.10); --a:#7cf7ff; --b:#b06cff; --c:#ff5fd7; --r:22px;
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(124,247,255,.18), transparent 55%),
+        radial-gradient(1200px 800px at 85% 15%, rgba(176,108,255,.22), transparent 55%),
+        radial-gradient(1200px 800px at 70% 80%, rgba(255,95,215,.12), transparent 55%),
+        var(--bg);
+    }
+    .wrap{max-width:980px; margin:0 auto; padding:22px 16px 60px}
+    .card{
+      border:1px solid var(--line); border-radius:var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .h1{margin:0 0 6px; font-size:30px; letter-spacing:-.4px}
+    .sub{margin:0 0 14px; color:var(--muted); line-height:1.5}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:12px 14px; border-radius:999px; text-decoration:none; font-weight:800;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+    }
+    .btn.primary{
+      border:none; color:#081018;
+      background:linear-gradient(135deg,var(--a),var(--b),var(--c));
+    }
+    .grid{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
+    @media (max-width: 840px){ .grid{grid-template-columns:1fr} }
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:12px; padding:2px 6px; border:1px solid var(--line); border-radius:8px; background:rgba(255,255,255,.04)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .fine{font-size:12px; color:rgba(233,238,252,.62); line-height:1.55}
+    .big{font-size:34px; font-weight:950; letter-spacing:-.4px}
+    .line{height:1px; background:var(--line); margin:14px 0}
+  </style>
 </head>
 <body>
-  <header class="top">
-    <div class="wrap top__inner">
-      <a class="brand" href="./index.html">
-        <span class="brand__dot"></span>
-        <span class="brand__text">ferixdi.ai</span>
-      </a>
-      <nav class="nav">
-        <a class="nav__link" href="./index.html#prices">Тарифы</a>
-        <a class="nav__link" href="./index.html#form">Заявка</a>
-      </nav>
+  <div class="wrap">
+    <div class="card">
+      <div class="h1">Оплата по СБП (ЮMoney)</div>
+      <div class="sub">Переводи сумму за выбранную услугу, сохраняй чек и отправляй его в Telegram — после чека я выдаю доступ/приступаю к ролику.</div>
+
+      <div class="grid">
+        <div class="card" style="padding:14px;">
+          <div class="fine">Вы выбрали</div>
+          <div id="planTitle" style="font-weight:950; font-size:18px;">—</div>
+          <div class="big" id="planPrice">—</div>
+          <div class="fine" id="planDesc">—</div>
+          <div class="line"></div>
+          <div class="row">
+            <a class="btn" href="https://ferixdi-png.github.io/ferixdi-ai-reels/" rel="noopener">← Вернуться на сайт</a>
+            <a class="btn primary" href="https://t.me/ferixdiii" target="_blank" rel="noopener">Отправить чек в TG</a>
+          </div>
+        </div>
+
+        <div class="card" style="padding:14px;">
+          <div style="font-weight:950; margin-bottom:8px;">Реквизиты</div>
+          <div class="sub" style="margin-bottom:10px;">
+            Номер: <span class="kbd">89962176524</span><br/>
+            Банк: <span class="kbd">ЮMoney</span><br/>
+            Получатель: <span class="kbd">Дмитрий</span>
+          </div>
+          <div class="fine">
+            После перевода отправь в Telegram: чек + что за услуга + свой @username, чтобы я быстро нашёл заявку.
+          </div>
+          <div class="line"></div>
+          <div class="row">
+            <a class="btn" href="https://t.me/ferixdiii" target="_blank" rel="noopener">TG: @ferixdiii</a>
+            <a class="btn" href="https://telegra.ph/Besplatnyj-mini-kurs-Svoj-Telegram-bot-s-50-nejrosetyami-fotovideo-v-rublyah-bez-VPN-i-dollarov-01-16?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnwYmVtH4Es7cxeoxnptQWRQx45IN-6jUDjtN1BB2yrxQFZ3OUV1qdVXumwZ8_aem_u61jYloSq6mTJrGUKXMSsA" target="_blank" rel="noopener">Разбор “бот под ключ”</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="fine" style="margin-top:12px;">
+        Подсказка: если ты оплатил и отправил чек — я считаю заявку принятой и беру в работу по очереди, без лишних созвонов.
+      </div>
     </div>
-  </header>
+  </div>
 
-  <main class="wrap" style="padding-top:28px; padding-bottom:56px;">
-    <section class="section">
-      <div class="section__head">
-        <h1 class="h1">Оплата</h1>
-        <p class="sub">Перевод по СБП в ЮMoney, дальше чек в Telegram — и я сразу беру ролик в работу.</p>
-      </div>
-
-      <div class="grid" style="display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
-        <div class="card">
-          <div class="card__head">
-            <h3 class="card__title">1 видео</h3>
-            <div class="card__price">2 000 ₽</div>
-          </div>
-          <div class="card__body">
-            <p class="muted">Комментарий к переводу: <b>AI Reels · 1</b></p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__head">
-            <h3 class="card__title">Пакет 5 видео</h3>
-            <div class="card__price">9 000 ₽</div>
-          </div>
-          <div class="card__body">
-            <p class="muted">Комментарий к переводу: <b>AI Reels · 5</b></p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__head">
-            <h3 class="card__title">Месяц · 20 видео</h3>
-            <div class="card__price">40 000 ₽</div>
-          </div>
-          <div class="card__body">
-            <p class="muted">Комментарий к переводу: <b>AI Reels · месяц</b></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:14px;">
-        <div class="card__body">
-          <p style="margin-top:0;"><b>СБП (ЮMoney)</b></p>
-          <div class="pill" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-            <span class="pill__item">Телефон: <b>+7 996 217-65-24</b></span>
-            <span class="pill__item">Банк: <b>ЮMoney</b></span>
-            <span class="pill__item">Получатель: <b>Дмитрий</b></span>
-          </div>
-
-          <div style="height:12px"></div>
-
-          <p class="muted" style="margin-bottom:12px;">После перевода отправь чек и материалы в Telegram: что за бренд, стиль, персонаж/товар, 1–2 рефа и цель ролика.</p>
-
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn" href="https://t.me/ferixdiii" target="_blank" rel="noopener">Отправить чек в Telegram</a>
-            <a class="btn btn--ghost" href="./index.html">Вернуться на сайт</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:14px;">
-        <div class="card__body">
-          <p style="margin:0 0 8px;"><b>Чтобы я сделал быстро и точно</b></p>
-          <ul class="list">
-            <li>Ссылка на аккаунт/сайт или товар</li>
-            <li>Кому ролик продаёт и что считаем результатом</li>
-            <li>2–3 слова про вайб: смешно / серьёзно / премиум</li>
-            <li>Любые запреты по бренду</li>
-          </ul>
-        </div>
-      </div>
-
-    </section>
-  
-    <section class="section">
-      <div class="card">
-        <h2 class="h2">Полезные ссылки</h2>
-        <div class="mini-links">
-          <a class="link" href="https://t.me/ferixdiii" target="_blank" rel="noreferrer">Написать в Telegram @ferixdiii</a>
-          <a class="link" href="https://t.me/ferixdi_ai?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn9BRFkpkFftjYqHp93r2rNm_FTzgArkinbbkE9aXH0H1rxoaLnNeqWe1k29Y_aem_OOPb3Irlc8MyWo4WprL2cw" target="_blank" rel="noreferrer">Мой Telegram-канал</a>
-          <a class="link" href="https://telegra.ph/Besplatnyj-mini-kurs-Svoj-Telegram-bot-s-50-nejrosetyami-fotovideo-v-rublyah-bez-VPN-i-dollarov-01-16?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnwYmVtH4Es7cxeoxnptQWRQx45IN-6jUDjtN1BB2yrxQFZ3OUV1qdVXumwZ8_aem_u61jYloSq6mTJrGUKXMSsA" target="_blank" rel="noreferrer">Разбор: бот под ключ</a>
-          <a class="link" href="https://t.me/syntxaibot?start=aff_6913446846" target="_blank" rel="noreferrer">Партнёрка Syntx</a>
-        </div>
-      </div>
-    </section>
-</main>
-
-  <footer class="footer">
-    <div class="wrap footer__inner">
-      <div class="muted">© ferixdi.ai</div>
-      <a class="muted" href="./index.html#bot">Разбор: бот под ключ</a>
-    </div>
-  </footer>
+  <script>
+    const plans = {
+      reel_1:{title:"AI Reels · 1 ролик", price:"2 000 ₽", desc:"Срок до 24 часов · 1–2 правки · 9:16"},
+      reel_5:{title:"AI Reels · пакет 5", price:"9 000 ₽", desc:"Серия роликов под один продукт · варианты хука · план публикаций"},
+      reel_20:{title:"AI Reels · месяц 20", price:"40 000 ₽", desc:"Единая стратегия · контент‑план · приоритет в очереди"},
+      edu_basic:{title:"Обучение · записи уроков", price:"3 000 ₽", desc:"Доступ к урокам + структура промптов/персонажей/стиля"},
+      access_500:{title:"Доступ к платформе (складчина)", price:"500 ₽", desc:"Недорогой вход + быстрый старт и подсказки"},
+      flow_45k:{title:"Flow · 45 000 кредитов (1 месяц)", price:"15 000 ₽", desc:"Аккаунт с подтверждённым номером + ключ + гайд"}
+    };
+    const url = new URL(window.location.href);
+    const plan = url.searchParams.get("plan") || "reel_1";
+    const p = plans[plan] || plans.reel_1;
+    document.getElementById("planTitle").textContent = p.title;
+    document.getElementById("planPrice").textContent = p.price;
+    document.getElementById("planDesc").textContent = p.desc;
+  </script>
 </body>
 </html>
