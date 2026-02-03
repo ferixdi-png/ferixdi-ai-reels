@@ -223,6 +223,16 @@ input:focus, textarea:focus{
   </div>
 
   <script>
+// Always start at top (disable browser scroll restoration + remove hash anchors)
+try{ if("scrollRestoration" in history) history.scrollRestoration = "manual"; }catch(e){}
+window.addEventListener("pageshow", ()=>{ try{ window.scrollTo(0,0);}catch(e){} }, {once:true});
+window.addEventListener("load", ()=>{
+  try{ if(location.hash){ history.replaceState(null, "", location.pathname + location.search); } }catch(e){}
+  try{ window.scrollTo(0,0);}catch(e){}
+  requestAnimationFrame(()=>{ try{ window.scrollTo(0,0);}catch(e){} });
+  setTimeout(()=>{ try{ window.scrollTo(0,0);}catch(e){} }, 120);
+}, {once:true});
+
   window.addEventListener('load', ()=>{ try{ window.scrollTo(0,0);}catch(e){} }, {once:true});
 
   (()=>{

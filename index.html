@@ -315,7 +315,7 @@ body{ padding-bottom: 88px; }
     <section class="hero">
       <div class="heroGrid">
         <div class="card" style="padding:18px;">
-          <h1 class="h1">Ролик за 8–12 секунд, который продаёт — быстро и по делу</h1>
+          <h1 class="h1">Ролик на 8–12 секунд, который продаёт — быстро и по делу</h1>
           <p class="sub">Оставляешь ТЗ → форма фиксирует всё нужное → дальше оплата по СБП (ЮMoney) → кидаешь чек в Telegram → я приступаю.</p>
           <div class="pillRow">
             <div class="pill">📱 Формат 9:16</div>
@@ -530,13 +530,17 @@ body{ padding-bottom: 88px; }
 
   <script>
     const PAY_URL = "pay.html";
-    const reelPlans = new Set(["reel_1","reel_5","reel_20"]);
-
-    // Mobile: prevent auto-jump (always start at top)
-    window.addEventListener("load", ()=>{
-      try{ window.scrollTo(0,0); }catch(e){}
-      setTimeout(()=>{ try{ window.scrollTo(0,0); }catch(e){} }, 80);
-    }, {once:true});
+    const reelPlans = new Set(["reel_1","reel_5","reel_20"]);// Always start at top on mobile (disable browser scroll restoration + remove hash anchors)
+try{ if("scrollRestoration" in history) history.scrollRestoration = "manual"; }catch(e){}
+window.addEventListener("pageshow", (e)=>{ try{ window.scrollTo(0,0); }catch(err){} }, {once:true});
+window.addEventListener("load", ()=>{
+  try{
+    if(location.hash){ history.replaceState(null, "", location.pathname + location.search); }
+  }catch(e){}
+  try{ window.scrollTo(0,0); }catch(e){}
+  requestAnimationFrame(()=>{ try{ window.scrollTo(0,0); }catch(e){} });
+  setTimeout(()=>{ try{ window.scrollTo(0,0); }catch(e){} }, 120);
+}, {once:true});
 
     // клик по тарифам Reels: выбираем пакет в форме и скроллим
     document.querySelectorAll("[data-plan]").forEach((btn)=>{
